@@ -27,9 +27,13 @@ python -m http.server 8765
 - 서버·로그인 없음. 최고 기록만 기기 안(localStorage)에 저장
 - 터치 중심 UI: 터치 영역 60px 이상, 글씨 20px 이상, 가로/세로 모두 대응
 
-## 배포
+## 배포 (접속 주소)
 
-GitHub Pages로 배포할 예정입니다. `index.html`이 생기면 저장소 설정에서 Pages를 켜고, 그 주소를 디벗에서 열면 됩니다.
+GitHub Pages로 배포되어 있습니다. 디벗이나 어떤 기기든 브라우저에서 아래 주소를 열면 바로 실행됩니다.
+
+**https://gi-a-bi.github.io/puzzle-dungeon/**
+
+`main` 브랜치에 변경이 합쳐지면 1~2분 안에 자동으로 다시 배포됩니다.
 
 ## 폴더 구조
 
