@@ -16,3 +16,6 @@ node_modules/
 
 # Claude Code 미리보기 설정
 .claude/launch.json
+
+# GPT로 만든 원본 이미지 (용량이 커서 커밋하지 않음, 로컬 보관)
+assets/original/

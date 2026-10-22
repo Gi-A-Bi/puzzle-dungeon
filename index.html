@@ -13,13 +13,14 @@ body{
   --c1:#2b3a67;--c2:#0a0f1e;--accent:#ffd54a;--accent2:#ff8f3d;--panel:rgba(255,255,255,.1);
   font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",sans-serif;
   font-size:20px;line-height:1.35;color:#fff;overflow:hidden;
-  background:radial-gradient(circle at 50% 15%,var(--c1),var(--c2) 75%);
+  background-color:var(--c2);
+  background-image:radial-gradient(circle at 50% 15%,var(--c1),var(--c2) 75%);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
   touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
-  transition:background .8s;
 }
-body.theme-moss{--c1:#2e7d5b;--c2:#071a12}
-body.theme-ice{--c1:#3b82c4;--c2:#071527}
-body.theme-lava{--c1:#c2410c;--c2:#1f0702}
+body.theme-moss{--c1:#2e7d5b;--c2:#071a12;background-image:linear-gradient(rgba(4,14,9,.45),rgba(4,14,9,.78)),url(assets/bg/floor-moss.webp)}
+body.theme-ice{--c1:#3b82c4;--c2:#071527;background-image:linear-gradient(rgba(5,15,35,.45),rgba(5,15,35,.78)),url(assets/bg/floor-ice.webp)}
+body.theme-lava{--c1:#c2410c;--c2:#1f0702;background-image:linear-gradient(rgba(30,6,2,.45),rgba(30,6,2,.78)),url(assets/bg/floor-lava.webp)}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0;touch-action:manipulation}
 .hidden{display:none!important}
 #fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
@@ -44,6 +45,8 @@ p{margin:0}
 .icon-btn{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.16);font-size:28px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 0 rgba(0,0,0,.3);flex:none}
 .icon-btn:active{transform:translateY(3px);box-shadow:none}
 .icon-btn.used{opacity:.35}
+.icon-btn img{width:70%;height:70%;object-fit:contain}
+.star-img{display:inline-block;width:1.15em;height:1.15em;vertical-align:-0.22em;background:url(assets/ui/star.webp) center/contain no-repeat}
 .corner{position:absolute;top:14px;right:14px}
 .pill{background:rgba(0,0,0,.35);border-radius:999px;padding:8px 16px;font-weight:800;font-size:20px;white-space:nowrap}
 
@@ -60,11 +63,7 @@ p{margin:0}
 .shake{animation:shake .45s}
 
 /* ===== 타이틀 ===== */
-#s-title{gap:10px}
-.gate{display:flex;align-items:flex-end;gap:20px}
-.arch{width:clamp(120px,22vw,170px);height:clamp(140px,26vw,200px);border-radius:50% 50% 12px 12px/40% 40% 12px 12px;background:#120a04;border:8px solid #6b4423;box-shadow:inset 0 0 50px #000,0 0 50px rgba(255,170,50,.25);position:relative;overflow:hidden}
-.arch::after{content:"";position:absolute;left:15%;right:15%;bottom:0;height:45%;background:radial-gradient(ellipse at 50% 100%,rgba(255,200,80,.55),rgba(255,200,80,0) 70%);animation:pulse 1.2s infinite alternate}
-.torch{font-size:clamp(36px,7vw,56px);animation:flicker .35s infinite alternate;filter:drop-shadow(0 0 16px #ffb347)}
+#s-title{gap:10px;justify-content:flex-end;padding-bottom:max(5vh,28px);background:linear-gradient(rgba(5,8,20,0) 30%,rgba(5,8,20,.85) 72%),url(assets/bg/title.webp) center/cover no-repeat}
 .title{font-size:clamp(40px,8vw,76px);font-weight:900;letter-spacing:-1px;background:linear-gradient(#fff6c2,#ffb300 70%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 0 #6b3d00) drop-shadow(0 8px 16px rgba(0,0,0,.5));animation:float 3s ease-in-out infinite;text-align:center}
 .sub{font-size:clamp(18px,2.6vw,24px);opacity:.9;text-align:center}
 .diff{display:flex;gap:8px;background:rgba(0,0,0,.3);padding:6px;border-radius:999px}
@@ -76,7 +75,8 @@ p{margin:0}
 .chars{display:grid;grid-template-columns:repeat(2,minmax(130px,170px));gap:16px}
 @media(min-width:760px){.chars{grid-template-columns:repeat(4,160px)}}
 .char{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border-radius:24px;background:rgba(255,255,255,.1);border:4px solid transparent;transition:transform .15s}
-.char .face{width:96px;height:96px;border-radius:50%;background:var(--cc);display:flex;align-items:center;justify-content:center;font-size:58px;box-shadow:0 6px 0 rgba(0,0,0,.3)}
+.char .face{width:104px;height:104px;border-radius:50%;background:var(--cc);position:relative;box-shadow:0 6px 0 rgba(0,0,0,.3);margin-top:20px}
+.char .face img{position:absolute;left:50%;bottom:-4px;width:128%;height:128%;transform:translateX(-50%);object-fit:contain;filter:drop-shadow(0 4px 4px rgba(0,0,0,.35))}
 .char .nm{font-weight:800;font-size:22px}
 .char.on{border-color:var(--accent);background:rgba(255,213,74,.2);transform:scale(1.07)}
 .char.on .face{animation:bob .5s infinite alternate}
@@ -94,15 +94,16 @@ p{margin:0}
 .floor.done{opacity:.8}
 .floor-name{font-weight:900;font-size:22px;margin-bottom:8px}
 .doors{display:flex;justify-content:space-around}
-.door{position:relative;width:84px;height:100px;display:flex;align-items:flex-end;justify-content:center}
-.door-face{width:66px;height:88px;border-radius:33px 33px 8px 8px;background:#1a0f06;border:4px solid #5a3b1e;box-shadow:inset 0 0 22px #000}
-.door.done .door-face{background:radial-gradient(circle at 50% 75%,#ffe08a,#6b3f16 70%)}
-.door.cur .door-face{background:radial-gradient(circle at 50% 75%,#ffd54a,#2a1706 70%);animation:glow 1.2s infinite alternate}
-.door.locked .door-face{opacity:.6}
-.door-hero{position:absolute;bottom:-4px;font-size:46px;line-height:1;animation:bob .7s infinite alternate ease-in-out;filter:drop-shadow(0 4px 4px rgba(0,0,0,.5))}
-.door-hero .torch{position:absolute;right:-20px;top:-8px;font-size:22px}
-.door-stars{position:absolute;bottom:-28px;font-size:15px;white-space:nowrap}
-.door-lock{position:absolute;bottom:30px;font-size:28px}
+.door{position:relative;width:100px;height:104px;display:flex;align-items:flex-end;justify-content:center}
+.door-face{width:100px;height:100px;background:url(assets/ui/door-closed.webp) center/contain no-repeat}
+.door.done .door-face{background-image:url(assets/ui/door-open.webp)}
+.door.cur .door-face{animation:glowDrop 1.2s infinite alternate}
+.door.locked .door-face{background-image:url(assets/ui/door-locked.webp);opacity:.7}
+@keyframes glowDrop{from{filter:drop-shadow(0 0 4px rgba(255,213,74,.5))}to{filter:drop-shadow(0 0 18px rgba(255,213,74,1))}}
+.door-hero{position:absolute;bottom:-6px;left:50%;margin-left:-36px;width:72px;height:72px;animation:bob .7s infinite alternate ease-in-out;filter:drop-shadow(0 4px 4px rgba(0,0,0,.5))}
+.door-hero img{width:100%;height:100%;object-fit:contain}
+.door-hero .hero-torch{position:absolute;right:-28px;top:-12px;width:36px;height:36px;animation:flicker .35s infinite alternate}
+.door-stars{position:absolute;bottom:-26px;font-size:16px;white-space:nowrap;display:flex;gap:2px}
 
 /* ===== 방(퍼즐) ===== */
 #s-room{justify-content:flex-start;padding-top:12px;gap:10px}
@@ -113,7 +114,8 @@ p{margin:0}
 .dots span.cur{background:#fff;box-shadow:0 0 10px #fff}
 .room-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;min-height:0}
 .side{display:flex;align-items:center;gap:10px;width:100%;max-width:640px;justify-content:center}
-.avatar{width:80px;height:80px;border-radius:50%;background:var(--cc,#ff9f43);display:flex;align-items:center;justify-content:center;font-size:48px;box-shadow:0 5px 0 rgba(0,0,0,.3);flex:none;position:relative}
+.avatar{width:84px;height:84px;border-radius:50%;background:var(--cc,#ff9f43);box-shadow:0 5px 0 rgba(0,0,0,.3);flex:none;position:relative;margin-top:16px}
+.avatar img{position:absolute;left:50%;bottom:-2px;width:126%;height:126%;transform:translateX(-50%);object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.35))}
 .avatar.jump{animation:jump .8s}
 .avatar.oops{animation:shake .5s}
 .avatar.oops::after{content:"앗!";position:absolute;top:-24px;right:-12px;font-size:22px;font-weight:900;color:var(--accent);animation:popIn .2s}
@@ -131,30 +133,31 @@ p{margin:0}
 .room-overlay{position:absolute;inset:0;background:rgba(5,8,20,.72);display:flex;align-items:center;justify-content:center;z-index:20;animation:popIn .25s}
 .card{background:linear-gradient(#fff,#eef1f8);color:#223;border-radius:30px;padding:28px 32px;display:flex;flex-direction:column;align-items:center;gap:16px;min-width:min(90vw,380px);box-shadow:0 20px 50px rgba(0,0,0,.5);text-align:center}
 .big-msg{font-size:40px;font-weight:900}
-.star-row{display:flex;gap:8px;font-size:54px}
-.star-row span{opacity:.2;filter:grayscale(1);transform:scale(.8)}
+.star-row{display:flex;gap:8px}
+.star-row span{width:64px;height:64px;background:url(assets/ui/star.webp) center/contain no-repeat;opacity:.2;filter:grayscale(1);transform:scale(.8)}
 .star-row span.on{opacity:1;filter:none;animation:pop .45s forwards}
 .modal{position:fixed;inset:0;background:rgba(5,8,20,.78);display:flex;align-items:center;justify-content:center;z-index:40;padding:16px}
 .modal .card{max-width:540px;animation:popIn .3s}
-.modal-icon{font-size:64px;line-height:1}
+.modal-icon{height:110px}
+.modal-icon img{width:110px;height:110px;object-fit:contain}
 .card h3{font-size:28px}
 .card p{font-size:21px;line-height:1.5}
 
 /* ===== 층 클리어 / 결과 ===== */
-.chest{position:relative;width:220px;height:190px;margin-top:44px}
-.chest .box{position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(#c8732a,#7a3e0d);border:6px solid #3f1f06;border-radius:16px}
-.chest .box::after{content:"";position:absolute;left:50%;top:-6px;width:36px;height:40px;margin-left:-18px;background:#ffd54a;border:5px solid #3f1f06;border-radius:8px}
-.chest .lid{position:absolute;left:0;right:0;top:20px;height:76px;background:linear-gradient(#e0924a,#9a5119);border:6px solid #3f1f06;border-radius:44px 44px 10px 10px;transform-origin:50% 100%;transition:transform .7s cubic-bezier(.3,1.6,.5,1);z-index:2}
-.chest .glow{position:absolute;left:5%;right:5%;top:0;height:110px;background:radial-gradient(ellipse at 50% 100%,#fff6b0,rgba(255,214,74,0) 70%);opacity:0;transition:opacity .6s}
-.chest.open .lid{transform:translateY(-50px) rotate(-22deg)}
+.chest{position:relative;width:min(60vw,280px);aspect-ratio:1;margin-top:10px}
+.chest img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .35s,transform .5s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 10px 14px rgba(0,0,0,.45))}
+.chest .chest-open{opacity:0;transform:scale(.7)}
+.chest .glow{position:absolute;left:-10%;right:-10%;top:-15%;height:90%;background:radial-gradient(ellipse at 50% 70%,rgba(255,246,176,.9),rgba(255,214,74,0) 65%);opacity:0;transition:opacity .6s}
+.chest.open .chest-closed{opacity:0}
+.chest.open .chest-open{opacity:1;transform:scale(1)}
 .chest.open .glow{opacity:1}
 .chest.shake{animation:shake .4s 3}
 .big-count{font-size:44px;font-weight:900}
 .big-count small{font-size:22px;opacity:.8}
-.trophy{font-size:120px;line-height:1.2;animation:float 2.5s ease-in-out infinite;filter:drop-shadow(0 10px 20px rgba(0,0,0,.5))}
-.trophy.gold{filter:drop-shadow(0 0 30px #ffd54a)}
-.trophy.silver{filter:grayscale(.3) brightness(1.2) drop-shadow(0 0 30px #dfe6f3)}
-.trophy.bronze{filter:sepia(.8) drop-shadow(0 0 30px #d08a4a)}
+.trophy{width:min(50vw,240px);height:min(50vw,240px);object-fit:contain;animation:float 2.5s ease-in-out infinite;filter:drop-shadow(0 10px 20px rgba(0,0,0,.5))}
+.trophy.gold{filter:drop-shadow(0 0 30px rgba(255,213,74,.9))}
+.trophy.silver{filter:drop-shadow(0 0 30px rgba(223,230,243,.9))}
+.trophy.bronze{filter:drop-shadow(0 0 30px rgba(208,138,74,.9))}
 .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .result-msg{font-size:22px;text-align:center;max-width:520px}
 
@@ -197,13 +200,14 @@ p{margin:0}
 .sd-cell.sel{background:#ffe27a;box-shadow:inset 0 0 0 4px #ffb300}
 .sd-cell.bad{background:#ffb3b3;animation:shake .4s}
 .sd-cell.hinted{background:#d8f5d0}
-.sd-cell .sd-v{display:inline-block}
+.sd-cell .sd-v{display:block;width:78%;height:78%;object-fit:contain}
 .sd-cell.pop .sd-v{animation:pop .3s}
 .sd-cell.br{border-right:5px solid #3a2a1c}
 .sd-cell.bb{border-bottom:5px solid #3a2a1c}
 .sd-grid.win .sd-cell{background:#d8f5d0}
 .sd-palette{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.sd-key{width:66px;height:66px;border-radius:18px;background:#fff;font-size:36px;box-shadow:0 5px 0 #b9c0d0;line-height:1}
+.sd-key{width:66px;height:66px;border-radius:18px;background:#fff;font-size:36px;box-shadow:0 5px 0 #b9c0d0;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.sd-key img{width:78%;height:78%;object-fit:contain}
 .sd-key:active{transform:translateY(4px);box-shadow:0 1px 0 #b9c0d0}
 
 /* ===== 퍼즐: 로봇 길 찾기 ===== */
@@ -216,7 +220,8 @@ p{margin:0}
 .rb-cell.trail::before{content:"";width:14px;height:14px;border-radius:50%;background:rgba(255,213,74,.85);position:absolute}
 .rb-robot{position:absolute;left:0;top:0;width:calc(100%/var(--n));height:calc(100%/var(--n));display:flex;align-items:center;justify-content:center;font-size:clamp(26px,6.5vw,44px);line-height:1;transform:translate(calc(var(--x)*100%),calc(var(--y)*100%)) rotate(var(--r));transition:transform .4s ease-in-out;z-index:2}
 .rb-robot .face{position:absolute;top:3px;left:50%;margin-left:-8px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:12px solid var(--accent)}
-.rb-bot{display:inline-block}
+.rb-bot{display:block;width:82%;height:82%;object-fit:contain}
+.rb-cell img{width:84%;height:84%;object-fit:contain}
 .rb-robot.bump .rb-bot{animation:shake .4s}
 .rb-robot.happy .rb-bot{animation:jump .8s}
 .rb-prog{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;background:rgba(0,0,0,.3);padding:10px;border-radius:18px;min-height:64px}
@@ -236,11 +241,6 @@ p{margin:0}
 
   <!-- 타이틀 -->
   <section class="screen" id="s-title">
-    <div class="gate">
-      <div class="torch">🔥</div>
-      <div class="arch"></div>
-      <div class="torch">🔥</div>
-    </div>
     <h1 class="title">두뇌 퍼즐 던전</h1>
     <p class="sub">퍼즐을 풀고 던전 깊은 곳의 보물을 찾아라!</p>
     <div class="diff-label">난이도</div>
@@ -266,7 +266,7 @@ p{margin:0}
     <div class="map-top">
       <div class="pill" id="map-diff">난이도 보통</div>
       <h2>던전 지도</h2>
-      <div class="pill">⭐ <span id="map-stars">0</span></div>
+      <div class="pill"><i class="star-img"></i> <span id="map-stars">0</span></div>
     </div>
     <div class="floors" id="floors"></div>
     <button class="btn primary big" id="btn-enter">방에 들어가기</button>
@@ -277,13 +277,13 @@ p{margin:0}
     <div class="room-top">
       <div class="pill" id="room-where">1층 · 1번 방</div>
       <div class="dots" id="room-dots"></div>
-      <div class="pill" id="room-stars">⭐ 0</div>
-      <button class="icon-btn" id="btn-hint" title="힌트">💡</button>
+      <div class="pill" id="room-stars"><i class="star-img"></i> 0</div>
+      <button class="icon-btn" id="btn-hint" title="힌트"><img src="assets/ui/bulb.webp" alt="힌트"></button>
       <button class="icon-btn" id="btn-sound2" title="소리">🔊</button>
     </div>
     <div class="room-body">
       <div class="side">
-        <div class="avatar" id="avatar">🦊</div>
+        <div class="avatar" id="avatar"><img id="avatar-img" src="assets/char/fox.webp" alt=""></div>
         <div class="bubble" id="bubble">준비됐니?</div>
       </div>
       <div class="puzzle-wrap"><div id="puzzle"></div></div>
@@ -300,16 +300,16 @@ p{margin:0}
   <!-- 층 클리어 -->
   <section class="screen" id="s-clear">
     <h2 id="clear-title">1층 클리어!</h2>
-    <div class="chest" id="chest"><div class="glow"></div><div class="lid"></div><div class="box"></div></div>
-    <div class="big-count">⭐ <span id="clear-stars">0</span> <small>/ <span id="clear-max">9</span></small></div>
+    <div class="chest" id="chest"><div class="glow"></div><img class="chest-closed" src="assets/ui/chest-closed.webp" alt=""><img class="chest-open" src="assets/ui/chest-open.webp" alt=""></div>
+    <div class="big-count"><i class="star-img"></i> <span id="clear-stars">0</span> <small>/ <span id="clear-max">9</span></small></div>
     <button class="btn primary big" id="btn-down">다음 층으로 내려가기!</button>
   </section>
 
   <!-- 결과 -->
   <section class="screen" id="s-result">
-    <div class="trophy" id="trophy">🏆</div>
+    <img class="trophy gold" id="trophy" src="assets/ui/trophy-gold.webp" alt="">
     <h2 id="result-title">금 트로피!</h2>
-    <div class="big-count">⭐ <span id="result-stars">0</span> <small>/ <span id="result-max">27</span></small></div>
+    <div class="big-count"><i class="star-img"></i> <span id="result-stars">0</span> <small>/ <span id="result-max">27</span></small></div>
     <p class="result-msg" id="result-msg"></p>
     <div class="row">
       <button class="btn primary big" id="btn-again">다시 하기</button>
@@ -321,7 +321,7 @@ p{margin:0}
 <!-- 안내 모달 -->
 <div id="modal" class="modal hidden">
   <div class="card">
-    <div class="modal-icon" id="modal-icon">🔮</div>
+    <div class="modal-icon" id="modal-icon"><img src="assets/ui/crystal.webp" alt=""></div>
     <h3 id="modal-title"></h3>
     <p id="modal-text"></p>
     <button class="btn primary big" id="modal-ok">시작!</button>
@@ -428,6 +428,8 @@ const THEMES = [
   { id: 'ice', name: '얼음 동굴', icon: '❄️' },
   { id: 'lava', name: '용암 동굴', icon: '🌋' },
 ];
+const charImg = (id, pose) => `assets/char/${id}${pose ? '-' + pose : ''}.webp`;
+const starIcons = n => n ? '<i class="star-img"></i>'.repeat(n) : '－';
 const DIFFS = { easy: { label: '쉬움', level: 1 }, normal: { label: '보통', level: 2 }, hard: { label: '어려움', level: 3 } };
 const FLOORS = 3, ROOMS = 3;
 const Puzzles = {};
@@ -437,7 +439,7 @@ const SHAPES = ['circle', 'square', 'triangle', 'star', 'diamond'];
 const COLORS = ['#ff5a5f', '#3d8bff', '#ffd23f', '#2ecc71', '#b56cff'];
 const SIZES = ['s', 'm', 'l'];
 Puzzles.pattern = {
-  name: '패턴 찾기', icon: '🔮',
+  name: '패턴 찾기', icon: 'assets/ui/crystal.webp',
   bubble: '규칙을 찾아서 물음표에 올 모양을 골라!',
   intro: '모양들이 어떤 규칙으로 늘어서 있는지 잘 보고, 물음표 자리에 들어갈 모양을 아래에서 골라요.',
   generate(level) {
@@ -489,7 +491,7 @@ Puzzles.pattern = {
 /* ---------- 퍼즐 2: 불빛 기억 ---------- */
 const PAD_COLORS = ['#ff5a5f', '#3d8bff', '#ffd23f', '#2ecc71', '#b56cff', '#ff8c42', '#00d2d3', '#ff6ec7', '#c8ff4d'];
 Puzzles.simon = {
-  name: '불빛 기억', icon: '💡',
+  name: '불빛 기억', icon: 'assets/ui/bulb.webp',
   bubble: '불빛이 켜지는 순서를 잘 보고 똑같이 눌러!',
   intro: '불빛이 켜지는 순서를 잘 기억했다가, 똑같은 순서로 눌러요. 성공할 때마다 한 칸씩 길어져요!',
   generate(level) {
@@ -536,9 +538,9 @@ Puzzles.simon = {
 };
 
 /* ---------- 퍼즐 3: 그림 스도쿠 ---------- */
-const FRUITS = ['🍎', '🍌', '🍇', '🍊', '🍓', '🥝'];
+const FRUITS = ['apple', 'banana', 'grape', 'orange', 'strawberry', 'kiwi'];
 Puzzles.sudoku = {
-  name: '그림 스도쿠', icon: '🍎',
+  name: '그림 스도쿠', icon: 'assets/fruit/apple.webp',
   bubble: '가로줄, 세로줄, 굵은 네모 안에 같은 과일이 없게 채워!',
   intro: '빈칸을 누르고 아래에서 과일을 골라 넣어요. 가로줄, 세로줄, 굵은 네모 상자 안에 같은 과일이 두 번 나오면 안 돼요!',
   generate(level) {
@@ -556,12 +558,13 @@ Puzzles.sudoku = {
   },
   mount(root, d, ctx) {
     const N = d.size, wrap = el('div', 'pz-sudoku'), grid = el('div', 'sd-grid n' + N), palette = el('div', 'sd-palette');
-    const fruitHtml = f => `<span class="sd-v">${f}</span>`;
+    const fruitHtml = f => `<img class="sd-v" src="assets/fruit/${f}.webp" alt="">`;
     grid.style.gridTemplateColumns = `repeat(${N},1fr)`;
     const vals = d.given.map(r => r.slice()), cells = []; let sel = null;
     const idx = (r, c) => r * N + c;
     for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
       const v = d.given[r][c], cell = el('div', 'sd-cell' + (v >= 0 ? ' fixed' : ''), v >= 0 ? fruitHtml(d.fruits[v]) : '');
+      cell.dataset.v = v;
       if ((c + 1) % d.bc === 0 && c < N - 1) cell.classList.add('br');
       if ((r + 1) % d.br === 0 && r < N - 1) cell.classList.add('bb');
       cell.addEventListener('click', () => { if (ctx.locked() || d.given[r][c] >= 0) return; ctx.sfx('tap'); select(r, c); });
@@ -585,12 +588,12 @@ Puzzles.sudoku = {
     const put = (r, c, v) => {
       if (d.given[r][c] >= 0) return;
       vals[r][c] = v; const cell = cells[idx(r, c)];
-      cell.innerHTML = v >= 0 ? fruitHtml(d.fruits[v]) : ''; cell.classList.remove('bad'); cell.classList.remove('pop'); void cell.offsetWidth; cell.classList.add('pop');
+      cell.innerHTML = v >= 0 ? fruitHtml(d.fruits[v]) : ''; cell.dataset.v = v; cell.classList.remove('bad'); cell.classList.remove('pop'); void cell.offsetWidth; cell.classList.add('pop');
       ctx.sfx('tap');
       if (v >= 0) { const nx = nextEmpty(r, c); if (nx) select(nx.r, nx.c); }
       if (full()) checkAll();
     };
-    d.fruits.forEach((f, i) => { const b = el('button', 'sd-key', f); b.addEventListener('click', () => { if (ctx.locked() || !sel) return; put(sel.r, sel.c, i); }); palette.appendChild(b); });
+    d.fruits.forEach((f, i) => { const b = el('button', 'sd-key', `<img src="assets/fruit/${f}.webp" alt="">`); b.dataset.v = i; b.addEventListener('click', () => { if (ctx.locked() || !sel) return; put(sel.r, sel.c, i); }); palette.appendChild(b); });
     const eraser = el('button', 'sd-key', '🧽'); eraser.addEventListener('click', () => { if (ctx.locked() || !sel) return; put(sel.r, sel.c, -1); }); palette.appendChild(eraser);
     wrap.append(grid, palette); root.appendChild(wrap);
     const first = nextEmpty(N - 1, N - 1); if (first) select(first.r, first.c);
@@ -599,12 +602,12 @@ Puzzles.sudoku = {
         const cand = []; for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) if (d.given[r][c] < 0 && vals[r][c] !== d.solution[r][c]) cand.push([r, c]);
         if (!cand.length) return;
         const [r, c] = pick(cand); vals[r][c] = d.solution[r][c]; d.given[r][c] = vals[r][c];
-        const cell = cells[idx(r, c)]; cell.innerHTML = fruitHtml(d.fruits[vals[r][c]]); cell.classList.remove('bad', 'sel'); cell.classList.add('hinted', 'fixed', 'pop');
+        const cell = cells[idx(r, c)]; cell.innerHTML = fruitHtml(d.fruits[vals[r][c]]); cell.dataset.v = vals[r][c]; cell.classList.remove('bad', 'sel'); cell.classList.add('hinted', 'fixed', 'pop');
         if (sel && sel.r === r && sel.c === c) { const nx = nextEmpty(r, c); if (nx) select(nx.r, nx.c); }
         if (full()) checkAll();
       },
       async showSolution() {
-        for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) if (d.given[r][c] < 0) { const cell = cells[idx(r, c)]; cell.innerHTML = fruitHtml(d.fruits[d.solution[r][c]]); cell.classList.remove('bad', 'sel'); cell.classList.add('hinted'); }
+        for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) if (d.given[r][c] < 0) { const cell = cells[idx(r, c)]; cell.innerHTML = fruitHtml(d.fruits[d.solution[r][c]]); cell.dataset.v = d.solution[r][c]; cell.classList.remove('bad', 'sel'); cell.classList.add('hinted'); }
         grid.classList.add('win'); await wait(700);
       }
     };
@@ -614,7 +617,7 @@ Puzzles.sudoku = {
 /* ---------- 퍼즐 4: 로봇 길 찾기 ---------- */
 const DIRS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // 위, 오른쪽, 아래, 왼쪽
 Puzzles.robot = {
-  name: '로봇 길 찾기', icon: '🤖',
+  name: '로봇 길 찾기', icon: 'assets/robot/robot.webp',
   bubble: '명령 블록을 순서대로 넣고 실행해서 로봇을 보물까지 보내!',
   intro: '⬆️ 앞으로, ↩️ 왼쪽으로 돌기, ↪️ 오른쪽으로 돌기 블록을 순서대로 넣어요. ▶ 실행을 누르면 로봇이 그대로 움직여요. 💎 보물까지 가면 성공!',
   generate(level) {
@@ -650,11 +653,11 @@ Puzzles.robot = {
     const cellEls = [];
     for (let y = 0; y < d.size; y++) for (let x = 0; x < d.size; x++) {
       const c = el('div', 'rb-cell');
-      if (d.obstacles.some(o => o.x === x && o.y === y)) { c.classList.add('wall'); c.textContent = '🧱'; }
-      if (d.goal.x === x && d.goal.y === y) { c.classList.add('goal'); c.textContent = '💎'; }
+      if (d.obstacles.some(o => o.x === x && o.y === y)) { c.classList.add('wall'); c.innerHTML = '<img src="assets/robot/rock.webp" alt="">'; }
+      if (d.goal.x === x && d.goal.y === y) { c.classList.add('goal'); c.innerHTML = '<img src="assets/robot/gem.webp" alt="">'; }
       board.appendChild(c); cellEls.push(c);
     }
-    const robot = el('div', 'rb-robot', '<span class="rb-bot">🤖</span><span class="face"></span>'); board.appendChild(robot);
+    const robot = el('div', 'rb-robot', '<img class="rb-bot" src="assets/robot/robot.webp" alt=""><span class="face"></span>'); board.appendChild(robot);
     let pos = { ...d.start }, f = d.facing, ang = d.facing * 90, running = false;
     const prog = [];
     const place = () => { robot.style.setProperty('--x', pos.x); robot.style.setProperty('--y', pos.y); robot.style.setProperty('--r', ang + 'deg'); };
@@ -711,9 +714,14 @@ const Screens = { show(id) { $$('.screen').forEach(s => s.classList.remove('acti
 const setTheme = id => { document.body.className = 'theme-' + id; };
 const curChar = () => CHARACTERS.find(c => c.id === Game.settings.character) || CHARACTERS[0];
 function say(text) { const b = $('#bubble'); b.textContent = text; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
-function avatarReact(kind) { const a = $('#avatar'); a.classList.remove('jump', 'oops'); void a.offsetWidth; a.classList.add(kind); setTimeout(() => a.classList.remove(kind), 900); }
+function avatarReact(kind) {
+  const a = $('#avatar'), img = $('#avatar-img'), ch = curChar();
+  a.classList.remove('jump', 'oops'); void a.offsetWidth; a.classList.add(kind);
+  img.src = charImg(ch.id, kind === 'jump' ? 'happy' : 'oops');
+  setTimeout(() => { a.classList.remove(kind); img.src = charImg(ch.id); }, kind === 'jump' ? 1400 : 1100);
+}
 function showModal(icon, title, text, btnText, cb) {
-  $('#modal-icon').textContent = icon; $('#modal-title').textContent = title; $('#modal-text').textContent = text;
+  $('#modal-icon img').src = icon; $('#modal-title').textContent = title; $('#modal-text').textContent = text;
   const ok = $('#modal-ok'); ok.textContent = btnText;
   ok.onclick = () => { Sound.play('tap'); $('#modal').classList.add('hidden'); cb && cb(); };
   $('#modal').classList.remove('hidden');
@@ -731,7 +739,7 @@ function countUp(node, n, ms) {
 async function showOverlay(stars, msg) {
   const ov = $('#room-overlay'), row = $('#ov-stars'), next = $('#btn-next');
   $('#ov-msg').textContent = msg; row.innerHTML = ''; next.classList.add('hidden'); ov.classList.remove('hidden');
-  const slots = range(3).map(() => { const s = el('span', null, '⭐'); row.appendChild(s); return s; });
+  const slots = range(3).map(() => { const s = el('span'); row.appendChild(s); return s; });
   await wait(350);
   for (let i = 0; i < stars; i++) { slots[i].classList.add('on'); Sound.play('star'); await wait(380); }
   await wait(300); next.classList.remove('hidden');
@@ -762,9 +770,9 @@ const Game = {
       fl.rooms.forEach((rm, ri) => {
         const ds = fi < s.floor || (fi === s.floor && ri < s.room) ? 'done' : (fi === s.floor && ri === s.room) ? 'cur' : 'locked';
         const door = el('div', `door ${ds}`);
-        door.innerHTML = ds === 'done' ? `<div class="door-face"></div><div class="door-stars">${'⭐'.repeat(rm.stars || 0) || '－'}</div>`
-          : ds === 'cur' ? `<div class="door-face"></div><div class="door-hero">${ch.emoji}<span class="torch">🔥</span></div>`
-          : `<div class="door-face"></div><div class="door-lock">🔒</div>`;
+        door.innerHTML = ds === 'done' ? `<div class="door-face"></div><div class="door-stars">${starIcons(rm.stars || 0)}</div>`
+          : ds === 'cur' ? `<div class="door-face"></div><div class="door-hero"><img src="${charImg(ch.id)}" alt=""><img class="hero-torch" src="assets/ui/torch.webp" alt=""></div>`
+          : `<div class="door-face"></div>`;
         doors.appendChild(door);
       });
       row.appendChild(doors); box.appendChild(row);
@@ -778,7 +786,7 @@ const Game = {
     Screens.show('s-room'); Sound.play('door');
     $('#room-where').textContent = `${fl.theme.icon} ${s.floor + 1}층 · ${s.room + 1}번 방`;
     $('#room-dots').innerHTML = range(ROOMS).map(i => `<span class="${i < s.room ? 'done' : i === s.room ? 'cur' : ''}"></span>`).join('');
-    const av = $('#avatar'); av.textContent = ch.emoji; av.style.setProperty('--cc', ch.color);
+    $('#avatar').style.setProperty('--cc', ch.color); $('#avatar-img').src = charImg(ch.id);
     $('#btn-hint').classList.remove('used'); $('#room-overlay').classList.add('hidden'); $('#puzzle').innerHTML = '';
     this.updateHeader(); say(P.bubble);
     if (!this.seenIntro[type]) { this.seenIntro[type] = true; showModal(P.icon, P.name, P.intro, '시작!', () => this.mountPuzzle()); }
@@ -790,7 +798,7 @@ const Game = {
     const ctx = { level: s.level, correct: () => this.onCorrect(), wrong: () => this.onWrong(), locked: () => cur.done, sfx: n => Sound.play(n) };
     cur.inst = P.mount($('#puzzle'), cur.data, ctx);
   },
-  updateHeader() { $('#room-stars').textContent = '⭐ ' + this.s.totalStars; },
+  updateHeader() { $('#room-stars').innerHTML = '<i class="star-img"></i> ' + this.s.totalStars; },
   async onCorrect() {
     const cur = this.s.cur; if (!cur || cur.done) return; cur.done = true;
     const stars = (cur.wrong === 0 && !cur.hint) ? 3 : ((cur.wrong <= 1 && !cur.hint) || (cur.wrong === 0 && cur.hint)) ? 2 : 1;
@@ -838,7 +846,7 @@ const Game = {
   showResult() {
     const s = this.s, max = FLOORS * ROOMS * 3, ratio = s.totalStars / max, tier = ratio >= 0.8 ? 'gold' : ratio >= 0.5 ? 'silver' : 'bronze';
     setTheme('title'); Screens.show('s-result');
-    $('#trophy').className = 'trophy ' + tier;
+    $('#trophy').className = 'trophy ' + tier; $('#trophy').src = `assets/ui/trophy-${tier}.webp`;
     $('#result-title').textContent = { gold: '금 트로피!', silver: '은 트로피!', bronze: '동 트로피!' }[tier];
     $('#result-msg').textContent = { gold: '완벽한 탐험가야! 던전의 보물은 네 거야!', silver: '훌륭해! 다음엔 금 트로피에 도전해 보자!', bronze: '던전을 끝까지 탐험했어! 다시 하면 더 잘할 수 있어!' }[tier];
     $('#result-max').textContent = max; $('#result-stars').textContent = '0';
@@ -855,7 +863,7 @@ function init() {
   $$('#btn-sound, #btn-sound2').forEach(b => b.addEventListener('click', () => { Sound.on = !Sound.on; Game.saveSettings(); syncSoundIcons(); Sound.play('tap'); }));
   const grid = $('#chars');
   CHARACTERS.forEach(c => {
-    const b = el('button', 'char' + (c.id === Game.settings.character ? ' on' : ''), `<div class="face" style="--cc:${c.color}">${c.emoji}</div><div class="nm">${c.name}</div>`);
+    const b = el('button', 'char' + (c.id === Game.settings.character ? ' on' : ''), `<div class="face" style="--cc:${c.color}"><img src="${charImg(c.id)}" alt="${c.name}"></div><div class="nm">${c.name}</div>`);
     b.addEventListener('click', () => { $$('.char').forEach(x => x.classList.remove('on')); b.classList.add('on'); Game.settings.character = c.id; Game.saveSettings(); Sound.play('tap'); });
     grid.appendChild(b);
   });
@@ -869,6 +877,15 @@ function init() {
   $('#btn-again').addEventListener('click', () => { Sound.play('door'); Game.newGame(); });
   $('#btn-home').addEventListener('click', () => { Sound.play('tap'); setTheme('title'); Screens.show('s-title'); });
   Screens.show('s-title');
+  // 그림 미리 불러오기 (첫 등장 때 늦게 뜨지 않게)
+  const preload = [
+    ...CHARACTERS.flatMap(c => [charImg(c.id), charImg(c.id, 'happy'), charImg(c.id, 'oops')]),
+    ...['chest-closed', 'chest-open', 'trophy-gold', 'trophy-silver', 'trophy-bronze', 'star', 'door-closed', 'door-locked', 'door-open', 'torch', 'bulb', 'crystal'].map(n => `assets/ui/${n}.webp`),
+    ...FRUITS.map(f => `assets/fruit/${f}.webp`),
+    ...['robot', 'gem', 'rock'].map(n => `assets/robot/${n}.webp`),
+    ...['floor-moss', 'floor-ice', 'floor-lava'].map(n => `assets/bg/${n}.webp`),
+  ];
+  setTimeout(() => preload.forEach(src => { const im = new Image(); im.src = src; }), 300);
   window.PD = { Puzzles, Game, Sound, FX }; // 디버그·테스트용 접근 훅
 }
 init();
