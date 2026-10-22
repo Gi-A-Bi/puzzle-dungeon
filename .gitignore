@@ -13,3 +13,6 @@ desktop.ini
 # 기타
 node_modules/
 *.log
+
+# Claude Code 미리보기 설정
+.claude/launch.json
