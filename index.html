@@ -71,15 +71,42 @@ p{margin:0}
 .diff button.on{background:#fff;color:#223;opacity:1;box-shadow:0 3px 0 #9aa3b8}
 .diff-label{font-size:18px;opacity:.85}
 
-/* ===== 캐릭터 선택 ===== */
-.chars{display:grid;grid-template-columns:repeat(2,minmax(130px,170px));gap:16px}
-@media(min-width:760px){.chars{grid-template-columns:repeat(4,160px)}}
-.char{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border-radius:24px;background:rgba(255,255,255,.1);border:4px solid transparent;transition:transform .15s}
-.char .face{width:104px;height:104px;border-radius:50%;background:var(--cc);position:relative;box-shadow:0 6px 0 rgba(0,0,0,.3);margin-top:20px}
-.char .face img{position:absolute;left:50%;bottom:-4px;width:128%;height:128%;transform:translateX(-50%);object-fit:contain;filter:drop-shadow(0 4px 4px rgba(0,0,0,.35))}
-.char .nm{font-weight:800;font-size:22px}
-.char.on{border-color:var(--accent);background:rgba(255,213,74,.2);transform:scale(1.07)}
-.char.on .face{animation:bob .5s infinite alternate}
+/* ===== 모험 준비 (인원·방식·탐험가) ===== */
+#s-select{justify-content:flex-start;padding-top:18px;gap:16px}
+.setup-block{width:100%;max-width:760px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.setup-label{font-size:22px;font-weight:800;opacity:.9}
+.count-row,.mode-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.count-btn{min-width:92px;min-height:78px;border-radius:20px;background:rgba(255,255,255,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:26px;line-height:1.1;border:3px solid transparent;box-shadow:0 4px 0 rgba(0,0,0,.3)}
+.count-btn span{font-size:18px;font-weight:800}
+.count-btn.on,.mode-btn.on{border-color:var(--accent);background:rgba(255,213,74,.22)}
+.mode-btn{min-width:220px;min-height:86px;border-radius:20px;background:rgba(255,255,255,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 16px;border:3px solid transparent;box-shadow:0 4px 0 rgba(0,0,0,.3)}
+.mode-btn b{font-size:24px}.mode-btn small{font-size:16px;opacity:.85}
+.pcards{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;width:100%}
+.pcard{background:rgba(0,0,0,.3);border-radius:22px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;align-items:center;min-width:320px;border:3px solid transparent}
+.pcard.ready{border-color:rgba(255,213,74,.6)}
+.pcard-head{display:flex;align-items:center;gap:10px}
+.pcard-num{font-weight:900;font-size:19px;background:var(--accent);color:#4a2a00;border-radius:999px;padding:5px 12px;white-space:nowrap}
+.pcard-name{font:inherit;font-size:20px;font-weight:700;width:190px;min-height:48px;border-radius:14px;border:0;padding:0 12px;background:#fff;color:#223;text-align:center}
+.pcard-chars{display:flex;gap:12px}
+.pc{width:68px;height:68px;border-radius:50%;background:var(--cc);position:relative;border:4px solid transparent;box-shadow:0 4px 0 rgba(0,0,0,.3);transition:transform .15s}
+.pc img{position:absolute;left:50%;bottom:-2px;width:122%;height:122%;transform:translateX(-50%);object-fit:contain}
+.pc.on{border-color:#fff;transform:scale(1.12)}
+.pc.taken{opacity:.25;pointer-events:none}
+
+/* ===== 참가자 칩·배지·순위 ===== */
+.mini{width:36px;height:36px;border-radius:50%;background:var(--cc,#ff9f43);position:relative;overflow:hidden;flex:none;display:inline-block;vertical-align:middle}
+.mini img{position:absolute;left:50%;top:2px;width:120%;height:120%;transform:translateX(-50%);object-fit:contain}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:100%;max-width:640px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.35);border-radius:999px;padding:4px 12px 4px 4px;font-weight:800;font-size:18px;border:2px solid transparent;white-space:nowrap}
+.chip.turn{border-color:var(--accent);background:rgba(255,213,74,.25)}
+.chip.rank1{border-color:#ffd54a}
+.door-badge{position:absolute;top:2px;left:2px;width:30px;height:30px;border-radius:50%;background:var(--cc);overflow:hidden;border:2px solid #fff;z-index:2}
+.door-badge img{position:absolute;left:50%;top:1px;width:120%;height:120%;transform:translateX(-50%);object-fit:contain}
+.rank-list{display:flex;flex-direction:column;gap:8px;width:min(92vw,440px)}
+.rank-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);border-radius:16px;padding:8px 14px;font-size:22px;font-weight:800}
+.rank-row.first{background:rgba(255,213,74,.3);border:2px solid var(--accent)}
+.rank-row .rk{min-width:64px;font-size:22px}
+.rank-row .nm{flex:1}
 
 /* ===== 던전 지도 ===== */
 #s-map{justify-content:flex-start;padding-top:20px}
@@ -93,7 +120,7 @@ p{margin:0}
 .floor.cur{border:3px solid var(--accent);box-shadow:0 0 24px rgba(255,213,74,.35);transform:scale(1.02)}
 .floor.done{opacity:.8}
 .floor-name{font-weight:900;font-size:22px;margin-bottom:8px}
-.doors{display:flex;justify-content:space-around}
+.doors{display:flex;justify-content:space-around;flex-wrap:wrap;gap:6px}
 .door{position:relative;width:100px;height:104px;display:flex;align-items:flex-end;justify-content:center}
 .door-face{width:100px;height:100px;background:url(assets/ui/door-closed.webp) center/contain no-repeat}
 .door.done .door-face{background-image:url(assets/ui/door-open.webp)}
@@ -255,10 +282,31 @@ p{margin:0}
 
   <!-- 캐릭터 선택 -->
   <section class="screen" id="s-select">
-    <h2>함께 모험할 탐험가를 골라요</h2>
-    <div class="chars" id="chars"></div>
-    <button class="btn primary big" id="btn-go">던전으로 출발!</button>
-    <button class="btn ghost" id="btn-back-title">뒤로</button>
+    <h2>모험 준비</h2>
+    <div class="setup-block">
+      <div class="setup-label">몇 명이 할까요?</div>
+      <div class="count-row" id="count-row">
+        <button class="count-btn on" data-n="1">👤<span>1명</span></button>
+        <button class="count-btn" data-n="2">👥<span>2명</span></button>
+        <button class="count-btn" data-n="3">👥👤<span>3명</span></button>
+        <button class="count-btn" data-n="4">👥👥<span>4명</span></button>
+      </div>
+    </div>
+    <div class="setup-block hidden" id="mode-block">
+      <div class="setup-label">어떻게 할까요?</div>
+      <div class="mode-row">
+        <button class="mode-btn on" data-m="coop"><b>🤝 협동</b><small>별을 합쳐 함께 보물을 찾아요</small></button>
+        <button class="mode-btn" data-m="versus"><b>⚔️ 대결</b><small>같은 퍼즐을 풀고 별을 비교해요</small></button>
+      </div>
+    </div>
+    <div class="setup-block">
+      <div class="setup-label" id="players-label">탐험가를 골라요</div>
+      <div class="pcards" id="pcards"></div>
+    </div>
+    <div class="row">
+      <button class="btn primary big" id="btn-go">던전으로 출발!</button>
+      <button class="btn ghost" id="btn-back-title">뒤로</button>
+    </div>
   </section>
 
   <!-- 던전 지도 -->
@@ -268,6 +316,7 @@ p{margin:0}
       <h2>던전 지도</h2>
       <div class="pill"><i class="star-img"></i> <span id="map-stars">0</span></div>
     </div>
+    <div class="chips hidden" id="map-chips"></div>
     <div class="floors" id="floors"></div>
     <button class="btn primary big" id="btn-enter">방에 들어가기</button>
   </section>
@@ -275,6 +324,7 @@ p{margin:0}
   <!-- 방(퍼즐) -->
   <section class="screen" id="s-room">
     <div class="room-top">
+      <div class="chip hidden" id="room-player"></div>
       <div class="pill" id="room-where">1층 · 1번 방</div>
       <div class="dots" id="room-dots"></div>
       <div class="pill" id="room-stars"><i class="star-img"></i> 0</div>
@@ -302,6 +352,7 @@ p{margin:0}
     <h2 id="clear-title">1층 클리어!</h2>
     <div class="chest" id="chest"><div class="glow"></div><img class="chest-closed" src="assets/ui/chest-closed.webp" alt=""><img class="chest-open" src="assets/ui/chest-open.webp" alt=""></div>
     <div class="big-count"><i class="star-img"></i> <span id="clear-stars">0</span> <small>/ <span id="clear-max">9</span></small></div>
+    <div class="chips hidden" id="clear-chips"></div>
     <button class="btn primary big" id="btn-down">다음 층으로 내려가기!</button>
   </section>
 
@@ -309,7 +360,8 @@ p{margin:0}
   <section class="screen" id="s-result">
     <img class="trophy gold" id="trophy" src="assets/ui/trophy-gold.webp" alt="">
     <h2 id="result-title">금 트로피!</h2>
-    <div class="big-count"><i class="star-img"></i> <span id="result-stars">0</span> <small>/ <span id="result-max">27</span></small></div>
+    <div class="big-count" id="result-big"><i class="star-img"></i> <span id="result-stars">0</span> <small>/ <span id="result-max">27</span></small></div>
+    <div class="rank-list hidden" id="rank-list"></div>
     <p class="result-msg" id="result-msg"></p>
     <div class="row">
       <button class="btn primary big" id="btn-again">다시 하기</button>
@@ -712,13 +764,12 @@ Puzzles.robot = {
 /* ---------- 화면 도우미 ---------- */
 const Screens = { show(id) { $$('.screen').forEach(s => s.classList.remove('active')); $('#' + id).classList.add('active'); $('#' + id).scrollTop = 0; } };
 const setTheme = id => { document.body.className = 'theme-' + id; };
-const curChar = () => CHARACTERS.find(c => c.id === Game.settings.character) || CHARACTERS[0];
 function say(text) { const b = $('#bubble'); b.textContent = text; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
 function avatarReact(kind) {
-  const a = $('#avatar'), img = $('#avatar-img'), ch = curChar();
+  const a = $('#avatar'), img = $('#avatar-img'), p = Game.roomPlayer(), id = p ? p.character : 'fox';
   a.classList.remove('jump', 'oops'); void a.offsetWidth; a.classList.add(kind);
-  img.src = charImg(ch.id, kind === 'jump' ? 'happy' : 'oops');
-  setTimeout(() => { a.classList.remove(kind); img.src = charImg(ch.id); }, kind === 'jump' ? 1400 : 1100);
+  img.src = charImg(id, kind === 'jump' ? 'happy' : 'oops');
+  setTimeout(() => { a.classList.remove(kind); img.src = charImg(id); }, kind === 'jump' ? 1400 : 1100);
 }
 function showModal(icon, title, text, btnText, cb) {
   $('#modal-icon img').src = icon; $('#modal-title').textContent = title; $('#modal-text').textContent = text;
@@ -746,6 +797,9 @@ async function showOverlay(stars, msg) {
 }
 
 /* ---------- 게임 진행 ---------- */
+// 모험 준비 화면에서 고른 인원·방식·탐험가
+const Setup = { count: 1, mode: 'coop', players: range(4).map(() => ({ character: null, name: '' })) };
+const chOf = p => CHARACTERS.find(c => c.id === p.character) || CHARACTERS[0];
 const Game = {
   s: null, seenIntro: {},
   settings: { sound: true, diff: 'normal', character: 'fox' },
@@ -753,14 +807,52 @@ const Game = {
   saveSettings() { this.settings.sound = Sound.on; try { localStorage.setItem('pd.settings', JSON.stringify(this.settings)); } catch (e) {} },
   newGame() {
     const level = DIFFS[this.settings.diff].level;
-    const floors = range(FLOORS).map(f => ({ theme: THEMES[f], rooms: shuffle(Object.keys(Puzzles)).slice(0, ROOMS).map(t => ({ type: t, stars: null })) }));
-    this.s = { level, floors, floor: 0, room: 0, totalStars: 0, cur: null };
+    const N = Setup.count, mode = N === 1 ? 'solo' : Setup.mode, types = Object.keys(Puzzles);
+    const players = Setup.players.slice(0, N).map((p, i) => { const ch = chOf(p); return { i, character: ch.id, color: ch.color, name: (p.name || '').trim() || ch.name, stars: 0 }; });
+    const floors = range(FLOORS).map(f => {
+      let rooms;
+      if (mode === 'versus') {
+        // 대결: 층마다 같은 종류의 퍼즐을 모두가 한 번씩 풀어 공평하게 비교 (2명이면 2종류씩)
+        const k = Math.ceil(ROOMS / N), ts = shuffle(types).slice(0, k);
+        rooms = range(k * N).map(j => ({ type: ts[Math.floor(j / N)], player: j % N, stars: null }));
+      } else {
+        // 혼자·협동: 층당 최소 3방, 4명이면 4방. 협동은 방을 돌아가며 맡음
+        const R = Math.max(ROOMS, N), ts = shuffle(types).slice(0, Math.min(R, types.length));
+        rooms = range(R).map(j => ({ type: ts[j % ts.length], player: 0, stars: null }));
+      }
+      return { theme: THEMES[f], rooms };
+    });
+    if (mode !== 'versus') { let g = 0; floors.forEach(fl => fl.rooms.forEach(rm => { rm.player = g++ % N; })); }
+    this.s = { level, mode, players, floors, floor: 0, room: 0, cur: null };
     this.seenIntro = {};
     this.showMap();
   },
+  totalStars() { return this.s.players.reduce((a, p) => a + p.stars, 0); },
+  maxStars() { return this.s.floors.reduce((a, f) => a + f.rooms.length, 0) * 3; },
+  isMulti() { return !!this.s && this.s.mode !== 'solo'; },
+  roomPlayer(fi, ri) {
+    const s = this.s; if (!s) return null;
+    const fl = s.floors[fi == null ? s.floor : fi], rm = fl && fl.rooms[ri == null ? s.room : ri];
+    return s.players[rm ? rm.player : 0];
+  },
+  miniHtml(p) { return `<span class="mini" style="--cc:${p.color}"><img src="${charImg(p.character)}" alt=""></span>`; },
+  renderChips(box, { turn = -1, floorOnly = null } = {}) {
+    const s = this.s; box.innerHTML = '';
+    if (s.mode === 'solo') { box.classList.add('hidden'); return; }
+    box.classList.remove('hidden');
+    const list = s.players.map(p => ({ p, stars: floorOnly == null ? p.stars : s.floors[floorOnly].rooms.filter(r => r.player === p.i).reduce((a, r) => a + (r.stars || 0), 0) }));
+    if (s.mode === 'versus') list.sort((a, b) => b.stars - a.stars);
+    const top = s.mode === 'versus' && list.length ? list[0].stars : -1;
+    list.forEach(({ p, stars }) => {
+      const c = el('div', 'chip' + (p.i === turn ? ' turn' : '') + (stars === top && stars > 0 ? ' rank1' : ''));
+      c.innerHTML = `${this.miniHtml(p)}${p.name} <i class="star-img"></i>${stars}`; box.appendChild(c);
+    });
+  },
   showMap() {
-    const s = this.s, ch = curChar(); setTheme(s.floors[s.floor].theme.id); Screens.show('s-map');
-    $('#map-stars').textContent = s.totalStars; $('#map-diff').textContent = '난이도 ' + DIFFS[this.settings.diff].label;
+    const s = this.s, multi = this.isMulti(), nextP = this.roomPlayer(); setTheme(s.floors[s.floor].theme.id); Screens.show('s-map');
+    $('#map-stars').textContent = this.totalStars();
+    $('#map-diff').textContent = '난이도 ' + DIFFS[this.settings.diff].label + (multi ? ' · ' + (s.mode === 'coop' ? '협동' : '대결') : '');
+    this.renderChips($('#map-chips'), { turn: nextP ? nextP.i : -1 });
     const box = $('#floors'); box.innerHTML = '';
     s.floors.forEach((fl, fi) => {
       const fs = fi < s.floor ? 'done' : fi === s.floor ? 'cur' : 'locked';
@@ -769,24 +861,31 @@ const Game = {
       const doors = el('div', 'doors');
       fl.rooms.forEach((rm, ri) => {
         const ds = fi < s.floor || (fi === s.floor && ri < s.room) ? 'done' : (fi === s.floor && ri === s.room) ? 'cur' : 'locked';
-        const door = el('div', `door ${ds}`);
-        door.innerHTML = ds === 'done' ? `<div class="door-face"></div><div class="door-stars">${starIcons(rm.stars || 0)}</div>`
-          : ds === 'cur' ? `<div class="door-face"></div><div class="door-hero"><img src="${charImg(ch.id)}" alt=""><img class="hero-torch" src="assets/ui/torch.webp" alt=""></div>`
-          : `<div class="door-face"></div>`;
+        const p = s.players[rm.player], door = el('div', `door ${ds}`);
+        const badge = multi ? `<span class="door-badge" style="--cc:${p.color}"><img src="${charImg(p.character)}" alt=""></span>` : '';
+        door.innerHTML = badge + (ds === 'done' ? `<div class="door-face"></div><div class="door-stars">${starIcons(rm.stars || 0)}</div>`
+          : ds === 'cur' ? `<div class="door-face"></div><div class="door-hero"><img src="${charImg(p.character)}" alt=""><img class="hero-torch" src="assets/ui/torch.webp" alt=""></div>`
+          : `<div class="door-face"></div>`);
         doors.appendChild(door);
       });
       row.appendChild(doors); box.appendChild(row);
     });
-    $('#btn-enter').textContent = s.room === 0 ? `${s.floor + 1}층 탐험 시작!` : '다음 방에 들어가기';
+    $('#btn-enter').textContent = (multi && nextP ? `${nextP.name} 차례! ` : '') + (s.room === 0 ? `${s.floor + 1}층 탐험 시작!` : '다음 방에 들어가기');
   },
   enterRoom() {
-    const s = this.s, fl = s && s.floors[s.floor], ch = curChar();
+    const s = this.s, fl = s && s.floors[s.floor];
     if (!fl || !fl.rooms[s.room]) return;
-    const type = fl.rooms[s.room].type, P = Puzzles[type];
+    const p = this.roomPlayer();
+    if (this.isMulti()) showModal(charImg(p.character), `${p.name} 차례!`, '디벗을 건네주고, 준비되면 눌러요.', '준비됐어!', () => this.startRoom());
+    else this.startRoom();
+  },
+  startRoom() {
+    const s = this.s, fl = s.floors[s.floor], p = this.roomPlayer(), type = fl.rooms[s.room].type, P = Puzzles[type];
     Screens.show('s-room'); Sound.play('door');
     $('#room-where').textContent = `${fl.theme.icon} ${s.floor + 1}층 · ${s.room + 1}번 방`;
-    $('#room-dots').innerHTML = range(ROOMS).map(i => `<span class="${i < s.room ? 'done' : i === s.room ? 'cur' : ''}"></span>`).join('');
-    $('#avatar').style.setProperty('--cc', ch.color); $('#avatar-img').src = charImg(ch.id);
+    $('#room-dots').innerHTML = fl.rooms.map((_, i) => `<span class="${i < s.room ? 'done' : i === s.room ? 'cur' : ''}"></span>`).join('');
+    $('#avatar').style.setProperty('--cc', p.color); $('#avatar-img').src = charImg(p.character);
+    const rp = $('#room-player'); rp.classList.toggle('hidden', !this.isMulti()); rp.innerHTML = this.miniHtml(p) + p.name;
     $('#btn-hint').classList.remove('used'); $('#room-overlay').classList.add('hidden'); $('#puzzle').innerHTML = '';
     this.updateHeader(); say(P.bubble);
     if (!this.seenIntro[type]) { this.seenIntro[type] = true; showModal(P.icon, P.name, P.intro, '시작!', () => this.mountPuzzle()); }
@@ -798,7 +897,10 @@ const Game = {
     const ctx = { level: s.level, correct: () => this.onCorrect(), wrong: () => this.onWrong(), locked: () => cur.done, sfx: n => Sound.play(n) };
     cur.inst = P.mount($('#puzzle'), cur.data, ctx);
   },
-  updateHeader() { $('#room-stars').innerHTML = '<i class="star-img"></i> ' + this.s.totalStars; },
+  updateHeader() {
+    const s = this.s, n = s.mode === 'versus' ? this.roomPlayer().stars : this.totalStars();
+    $('#room-stars').innerHTML = (s.mode === 'coop' ? '함께 ' : '') + '<i class="star-img"></i> ' + n;
+  },
   async onCorrect() {
     const cur = this.s.cur; if (!cur || cur.done) return; cur.done = true;
     const stars = (cur.wrong === 0 && !cur.hint) ? 3 : ((cur.wrong <= 1 && !cur.hint) || (cur.wrong === 0 && cur.hint)) ? 2 : 1;
@@ -819,38 +921,60 @@ const Game = {
     await wait(600); this.finishRoom(0, '다음엔 꼭!');
   },
   finishRoom(stars, msg) {
-    const s = this.s; s.floors[s.floor].rooms[s.room].stars = stars; s.totalStars += stars; this.updateHeader(); showOverlay(stars, msg);
+    const s = this.s; s.floors[s.floor].rooms[s.room].stars = stars; this.roomPlayer().stars += stars; this.updateHeader(); showOverlay(stars, msg);
   },
   nextRoom() {
     const s = this.s; $('#room-overlay').classList.add('hidden');
     if (s.cur && s.cur.inst && s.cur.inst.destroy) s.cur.inst.destroy();
     s.cur = null; s.room++;
-    if (s.room >= ROOMS) this.floorClear(); else this.showMap();
+    if (s.room >= s.floors[s.floor].rooms.length) this.floorClear(); else this.showMap();
   },
   useHint() {
     const cur = this.s && this.s.cur; if (!cur || cur.done || cur.hint || !cur.inst || !cur.inst.hint) return;
     cur.hint = true; Sound.play('hint'); $('#btn-hint').classList.add('used'); say('힌트를 줄게! 잘 봐.'); cur.inst.hint();
   },
   async floorClear() {
-    const s = this.s, floorStars = s.floors[s.floor].rooms.reduce((a, r) => a + (r.stars || 0), 0), chest = $('#chest'), btn = $('#btn-down');
+    const s = this.s, fl = s.floors[s.floor], floorStars = fl.rooms.reduce((a, r) => a + (r.stars || 0), 0), chest = $('#chest'), btn = $('#btn-down'), chips = $('#clear-chips');
     Screens.show('s-clear');
-    $('#clear-title').textContent = `${s.floor + 1}층 클리어!`; $('#clear-stars').textContent = '0'; $('#clear-max').textContent = ROOMS * 3;
-    chest.className = 'chest'; btn.classList.add('hidden'); btn.textContent = s.floor + 1 < FLOORS ? '다음 층으로 내려가기!' : '결과 보기!';
+    $('#clear-title').textContent = `${s.floor + 1}층 클리어!`; $('#clear-stars').textContent = '0'; $('#clear-max').textContent = fl.rooms.length * 3;
+    chips.classList.add('hidden'); chest.className = 'chest'; btn.classList.add('hidden'); btn.textContent = s.floor + 1 < FLOORS ? '다음 층으로 내려가기!' : '결과 보기!';
     Sound.play('door'); await wait(500);
     chest.classList.add('shake'); await wait(1200); chest.classList.remove('shake'); chest.classList.add('open'); Sound.play('chest');
     const r = chest.getBoundingClientRect(); FX.stars(r.left + r.width / 2, r.top + r.height / 3);
     countUp($('#clear-stars'), floorStars, 900);
-    await wait(1300); btn.classList.remove('hidden');
+    await wait(1000); this.renderChips(chips, { floorOnly: s.floor });
+    await wait(300); btn.classList.remove('hidden');
   },
   nextFloor() { const s = this.s; if (s.floor + 1 < FLOORS) { s.floor++; s.room = 0; this.showMap(); } else this.showResult(); },
+  rankRow(p, stars, rk) { return `<span class="rk">${rk}</span>${this.miniHtml(p)}<span class="nm">${p.name}</span><span><i class="star-img"></i> ${stars}</span>`; },
   showResult() {
-    const s = this.s, max = FLOORS * ROOMS * 3, ratio = s.totalStars / max, tier = ratio >= 0.8 ? 'gold' : ratio >= 0.5 ? 'silver' : 'bronze';
+    const s = this.s, max = this.maxStars(), total = this.totalStars(), ratio = total / max;
+    let tier = ratio >= 0.8 ? 'gold' : ratio >= 0.5 ? 'silver' : 'bronze';
     setTheme('title'); Screens.show('s-result');
-    $('#trophy').className = 'trophy ' + tier; $('#trophy').src = `assets/ui/trophy-${tier}.webp`;
-    $('#result-title').textContent = { gold: '금 트로피!', silver: '은 트로피!', bronze: '동 트로피!' }[tier];
-    $('#result-msg').textContent = { gold: '완벽한 탐험가야! 던전의 보물은 네 거야!', silver: '훌륭해! 다음엔 금 트로피에 도전해 보자!', bronze: '던전을 끝까지 탐험했어! 다시 하면 더 잘할 수 있어!' }[tier];
+    const list = $('#rank-list'), big = $('#result-big'); list.innerHTML = ''; list.classList.add('hidden'); big.classList.remove('hidden');
     $('#result-max').textContent = max; $('#result-stars').textContent = '0';
-    countUp($('#result-stars'), s.totalStars, 1400); Sound.play('fanfare'); FX.fireworks();
+    if (s.mode === 'solo') {
+      $('#result-title').textContent = { gold: '금 트로피!', silver: '은 트로피!', bronze: '동 트로피!' }[tier];
+      $('#result-msg').textContent = { gold: '완벽한 탐험가야! 던전의 보물은 네 거야!', silver: '훌륭해! 다음엔 금 트로피에 도전해 보자!', bronze: '던전을 끝까지 탐험했어! 다시 하면 더 잘할 수 있어!' }[tier];
+    } else if (s.mode === 'coop') {
+      $('#result-title').textContent = { gold: '팀 금 트로피!', silver: '팀 은 트로피!', bronze: '팀 동 트로피!' }[tier];
+      $('#result-msg').textContent = { gold: '최고의 탐험대야! 힘을 합쳐 보물을 찾았어!', silver: '멋진 팀워크야! 다음엔 금 트로피에 도전해 보자!', bronze: '함께 끝까지 탐험했어! 다시 하면 더 잘할 수 있어!' }[tier];
+      list.classList.remove('hidden');
+      s.players.forEach(p => { const d = el('div', 'rank-row'); d.innerHTML = this.rankRow(p, p.stars, '🤝'); list.appendChild(d); });
+    } else {
+      tier = 'gold'; big.classList.add('hidden'); list.classList.remove('hidden');
+      const sorted = s.players.slice().sort((a, b) => b.stars - a.stars);
+      let rank = 0, prev = null;
+      sorted.forEach((p, i) => {
+        if (p.stars !== prev) { rank = i + 1; prev = p.stars; }
+        const d = el('div', 'rank-row' + (rank === 1 ? ' first' : '')); d.innerHTML = this.rankRow(p, p.stars, (rank === 1 ? '👑 ' : '') + rank + '위'); list.appendChild(d);
+      });
+      const winners = sorted.filter(p => p.stars === sorted[0].stars);
+      $('#result-title').textContent = winners.length > 1 ? `공동 1위! ${winners.map(w => w.name).join(' · ')}` : `${winners[0].name} 1위!`;
+      $('#result-msg').textContent = '모두 잘했어! 다음엔 별을 더 많이 모아 보자.';
+    }
+    $('#trophy').className = 'trophy ' + tier; $('#trophy').src = `assets/ui/trophy-${tier}.webp`;
+    countUp($('#result-stars'), total, 1400); Sound.play('fanfare'); FX.fireworks();
   }
 };
 
@@ -861,15 +985,33 @@ function init() {
   document.addEventListener('contextmenu', e => e.preventDefault());
   $$('#diff button').forEach(b => { b.classList.toggle('on', b.dataset.d === Game.settings.diff); b.addEventListener('click', () => { $$('#diff button').forEach(x => x.classList.remove('on')); b.classList.add('on'); Game.settings.diff = b.dataset.d; Game.saveSettings(); Sound.play('tap'); }); });
   $$('#btn-sound, #btn-sound2').forEach(b => b.addEventListener('click', () => { Sound.on = !Sound.on; Game.saveSettings(); syncSoundIcons(); Sound.play('tap'); }));
-  const grid = $('#chars');
-  CHARACTERS.forEach(c => {
-    const b = el('button', 'char' + (c.id === Game.settings.character ? ' on' : ''), `<div class="face" style="--cc:${c.color}"><img src="${charImg(c.id)}" alt="${c.name}"></div><div class="nm">${c.name}</div>`);
-    b.addEventListener('click', () => { $$('.char').forEach(x => x.classList.remove('on')); b.classList.add('on'); Game.settings.character = c.id; Game.saveSettings(); Sound.play('tap'); });
-    grid.appendChild(b);
-  });
-  $('#btn-start').addEventListener('click', () => { Sound.play('tap'); Screens.show('s-select'); });
+  // 모험 준비 화면: 인원 → (방식) → 탐험가·이름
+  const renderPcards = () => {
+    const N = Setup.count, box = $('#pcards'); box.innerHTML = '';
+    $('#mode-block').classList.toggle('hidden', N === 1);
+    $('#players-label').textContent = N === 1 ? '탐험가를 골라요' : '각자 탐험가를 골라요 (이름은 안 써도 돼요)';
+    range(N).forEach(i => {
+      const p = Setup.players[i], card = el('div', 'pcard' + (p.character ? ' ready' : ''));
+      card.innerHTML = `<div class="pcard-head"><span class="pcard-num">${N === 1 ? '탐험가' : (i + 1) + '번 탐험가'}</span><input class="pcard-name" maxlength="6" placeholder="이름"></div><div class="pcard-chars"></div>`;
+      const inp = $('.pcard-name', card); inp.value = p.name; inp.addEventListener('input', () => { p.name = inp.value; });
+      const chars = $('.pcard-chars', card);
+      CHARACTERS.forEach(c => {
+        const taken = Setup.players.slice(0, N).some((q, j) => j !== i && q.character === c.id);
+        const b = el('button', 'pc' + (p.character === c.id ? ' on' : '') + (taken ? ' taken' : ''), `<img src="${charImg(c.id)}" alt="${c.name}">`);
+        b.style.setProperty('--cc', c.color); b.title = c.name;
+        b.addEventListener('click', () => { p.character = c.id; Sound.play('tap'); renderPcards(); });
+        chars.appendChild(b);
+      });
+      box.appendChild(card);
+    });
+    $('#btn-go').disabled = !Setup.players.slice(0, N).every(p => p.character);
+  };
+  Setup.players[0].character = CHARACTERS.some(c => c.id === Game.settings.character) ? Game.settings.character : 'fox';
+  $$('#count-row button').forEach(b => b.addEventListener('click', () => { $$('#count-row button').forEach(x => x.classList.remove('on')); b.classList.add('on'); Setup.count = +b.dataset.n; Sound.play('tap'); renderPcards(); }));
+  $$('.mode-btn').forEach(b => b.addEventListener('click', () => { $$('.mode-btn').forEach(x => x.classList.remove('on')); b.classList.add('on'); Setup.mode = b.dataset.m; Sound.play('tap'); }));
+  $('#btn-start').addEventListener('click', () => { Sound.play('tap'); renderPcards(); Screens.show('s-select'); });
   $('#btn-back-title').addEventListener('click', () => { Sound.play('tap'); Screens.show('s-title'); });
-  $('#btn-go').addEventListener('click', () => { Sound.play('door'); Game.newGame(); });
+  $('#btn-go').addEventListener('click', () => { Game.settings.character = Setup.players[0].character; Game.saveSettings(); Sound.play('door'); Game.newGame(); });
   $('#btn-enter').addEventListener('click', () => Game.enterRoom());
   $('#btn-hint').addEventListener('click', () => Game.useHint());
   $('#btn-next').addEventListener('click', () => { Sound.play('tap'); Game.nextRoom(); });
@@ -886,7 +1028,7 @@ function init() {
     ...['floor-moss', 'floor-ice', 'floor-lava'].map(n => `assets/bg/${n}.webp`),
   ];
   setTimeout(() => preload.forEach(src => { const im = new Image(); im.src = src; }), 300);
-  window.PD = { Puzzles, Game, Sound, FX }; // 디버그·테스트용 접근 훅
+  window.PD = { Puzzles, Game, Setup, Sound, FX }; // 디버그·테스트용 접근 훅
 }
 init();
 })();
