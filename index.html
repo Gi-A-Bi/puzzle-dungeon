@@ -111,6 +111,8 @@ p{margin:0}
 /* ===== 던전 지도 ===== */
 #s-map{justify-content:flex-start;padding-top:20px}
 .map-top{display:flex;align-items:center;gap:12px;width:100%;max-width:640px;justify-content:space-between}
+.map-top h2{white-space:nowrap}
+@media (max-width:560px){.map-top{flex-wrap:wrap;gap:8px 12px}.map-top h2{width:100%;order:-1}}
 .floors{display:flex;flex-direction:column;gap:12px;width:100%;max-width:640px;flex:1;justify-content:center}
 .floor{border-radius:22px;padding:12px 14px 34px;background:var(--panel);position:relative;transition:transform .3s}
 .floor.t-moss{background:linear-gradient(135deg,rgba(46,125,91,.55),rgba(0,0,0,.3))}
@@ -167,6 +169,7 @@ p{margin:0}
 .modal .card{max-width:540px;animation:popIn .3s}
 .modal-icon{height:110px}
 .modal-icon img{width:110px;height:110px;object-fit:contain}
+.card .btn.ghost{background:#dde2ee;color:#223;box-shadow:0 4px 0 rgba(0,0,0,.15)}
 .card h3{font-size:28px}
 .card p{font-size:21px;line-height:1.5}
 
@@ -315,6 +318,7 @@ p{margin:0}
       <div class="pill" id="map-diff">난이도 보통</div>
       <h2>던전 지도</h2>
       <div class="pill"><i class="star-img"></i> <span id="map-stars">0</span></div>
+      <button class="icon-btn" id="btn-map-home" title="처음으로">🏠</button>
     </div>
     <div class="chips hidden" id="map-chips"></div>
     <div class="floors" id="floors"></div>
@@ -330,6 +334,7 @@ p{margin:0}
       <div class="pill" id="room-stars"><i class="star-img"></i> 0</div>
       <button class="icon-btn" id="btn-hint" title="힌트"><img src="assets/ui/bulb.webp" alt="힌트"></button>
       <button class="icon-btn" id="btn-sound2" title="소리">🔊</button>
+      <button class="icon-btn" id="btn-room-home" title="처음으로">🏠</button>
     </div>
     <div class="room-body">
       <div class="side">
@@ -376,7 +381,10 @@ p{margin:0}
     <div class="modal-icon" id="modal-icon"><img src="assets/ui/crystal.webp" alt=""></div>
     <h3 id="modal-title"></h3>
     <p id="modal-text"></p>
-    <button class="btn primary big" id="modal-ok">시작!</button>
+    <div class="row">
+      <button class="btn primary big" id="modal-ok">시작!</button>
+      <button class="btn ghost hidden" id="modal-cancel">처음으로</button>
+    </div>
   </div>
 </div>
 
@@ -769,12 +777,14 @@ function avatarReact(kind) {
   const a = $('#avatar'), img = $('#avatar-img'), p = Game.roomPlayer(), id = p ? p.character : 'fox';
   a.classList.remove('jump', 'oops'); void a.offsetWidth; a.classList.add(kind);
   img.src = charImg(id, kind === 'jump' ? 'happy' : 'oops');
-  setTimeout(() => { a.classList.remove(kind); img.src = charImg(id); }, kind === 'jump' ? 1400 : 1100);
+  setTimeout(() => { a.classList.remove(kind); const q = Game.roomPlayer(); img.src = charImg(q ? q.character : id); }, kind === 'jump' ? 1400 : 1100);
 }
-function showModal(icon, title, text, btnText, cb) {
+function showModal(icon, title, text, btnText, cb, alt) {
   $('#modal-icon img').src = icon; $('#modal-title').textContent = title; $('#modal-text').textContent = text;
-  const ok = $('#modal-ok'); ok.textContent = btnText;
+  const ok = $('#modal-ok'), cancel = $('#modal-cancel'); ok.textContent = btnText;
   ok.onclick = () => { Sound.play('tap'); $('#modal').classList.add('hidden'); cb && cb(); };
+  cancel.classList.toggle('hidden', !alt);
+  if (alt) { cancel.textContent = alt.text; cancel.onclick = () => { Sound.play('tap'); $('#modal').classList.add('hidden'); alt.cb && alt.cb(); }; }
   $('#modal').classList.remove('hidden');
 }
 function syncSoundIcons() { $$('#btn-sound, #btn-sound2').forEach(b => b.textContent = Sound.on ? '🔊' : '🔇'); }
@@ -902,23 +912,25 @@ const Game = {
     $('#room-stars').innerHTML = (s.mode === 'coop' ? '함께 ' : '') + '<i class="star-img"></i> ' + n;
   },
   async onCorrect() {
-    const cur = this.s.cur; if (!cur || cur.done) return; cur.done = true;
+    const s = this.s, cur = s && s.cur; if (!cur || cur.done) return; cur.done = true;
     const stars = (cur.wrong === 0 && !cur.hint) ? 3 : ((cur.wrong <= 1 && !cur.hint) || (cur.wrong === 0 && cur.hint)) ? 2 : 1;
     Sound.play('correct'); FX.confetti(); avatarReact('jump');
     say(pick(['정답이야! 대단해!', '우와, 맞혔어!', '멋져! 바로 그거야!', '똑똑한걸!']));
     await wait(900);
+    if (this.s !== s) return; // 기다리는 사이 처음으로 나갔으면 끝
     this.finishRoom(stars, '정답!');
   },
   onWrong() {
-    const cur = this.s.cur; if (!cur || cur.done) return; cur.wrong++;
+    const s = this.s, cur = s && s.cur; if (!cur || cur.done) return; cur.wrong++;
     Sound.play('wrong'); avatarReact('oops');
     if (cur.wrong >= 3) { cur.done = true; say('괜찮아! 정답을 보여줄게.'); this.revealAndFinish(); }
     else say(pick(['앗! 다시 생각해 보자.', '음… 조금만 더!', '아깝다! 한 번 더!']) + ` (남은 기회 ${3 - cur.wrong}번)`);
   },
   async revealAndFinish() {
-    const cur = this.s.cur; await wait(800);
+    const s = this.s, cur = s.cur; await wait(800);
+    if (this.s !== s) return;
     if (cur.inst && cur.inst.showSolution) await cur.inst.showSolution();
-    await wait(600); this.finishRoom(0, '다음엔 꼭!');
+    await wait(600); if (this.s !== s) return; this.finishRoom(0, '다음엔 꼭!');
   },
   finishRoom(stars, msg) {
     const s = this.s; s.floors[s.floor].rooms[s.room].stars = stars; this.roomPlayer().stars += stars; this.updateHeader(); showOverlay(stars, msg);
@@ -932,6 +944,18 @@ const Game = {
   useHint() {
     const cur = this.s && this.s.cur; if (!cur || cur.done || cur.hint || !cur.inst || !cur.inst.hint) return;
     cur.hint = true; Sound.play('hint'); $('#btn-hint').classList.add('used'); say('힌트를 줄게! 잘 봐.'); cur.inst.hint();
+  },
+  askHome() {
+    const s = this.s; if (!s) return;
+    Sound.play('tap');
+    const text = s.mode === 'solo' ? '지금 그만두면 모은 별이 사라져요.' : '지금 그만두면 모두가 모은 별이 사라져요.';
+    showModal('assets/ui/crystal.webp', '처음 화면으로 갈까?', text, '계속 하기', null, { text: '처음으로', cb: () => this.quitToTitle() });
+  },
+  quitToTitle() {
+    const s = this.s;
+    if (s && s.cur && s.cur.inst && s.cur.inst.destroy) s.cur.inst.destroy();
+    this.s = null; $('#puzzle').innerHTML = ''; $('#room-overlay').classList.add('hidden');
+    setTheme('title'); Screens.show('s-title');
   },
   async floorClear() {
     const s = this.s, fl = s.floors[s.floor], floorStars = fl.rooms.reduce((a, r) => a + (r.stars || 0), 0), chest = $('#chest'), btn = $('#btn-down'), chips = $('#clear-chips');
@@ -1017,7 +1041,9 @@ function init() {
   $('#btn-next').addEventListener('click', () => { Sound.play('tap'); Game.nextRoom(); });
   $('#btn-down').addEventListener('click', () => { Sound.play('tap'); Game.nextFloor(); });
   $('#btn-again').addEventListener('click', () => { Sound.play('door'); Game.newGame(); });
-  $('#btn-home').addEventListener('click', () => { Sound.play('tap'); setTheme('title'); Screens.show('s-title'); });
+  $('#btn-home').addEventListener('click', () => { Sound.play('tap'); Game.quitToTitle(); });
+  $('#btn-room-home').addEventListener('click', () => Game.askHome());
+  $('#btn-map-home').addEventListener('click', () => Game.askHome());
   Screens.show('s-title');
   // 그림 미리 불러오기 (첫 등장 때 늦게 뜨지 않게)
   const preload = [
